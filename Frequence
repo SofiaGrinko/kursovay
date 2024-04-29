@@ -1,0 +1,12 @@
+kmFrequence[] := 
+  Grid[{{"f1", "f2"}, {f1 = N@Mean@(1/Flatten@Values@GlobalPeriod), 
+     f2 = N@(1/Mean@Flatten@Values@GlobalPeriod)}}, 
+   Background -> {{}, {LightGreen}}, Frame -> All];
+
+kmMaxFrequence[] := 
+  Grid[{{"fMAX"}, {fmax = N@(1/Min@Flatten@Values@GlobalPeriod)}}, 
+   Background -> {{}, {LightGreen}}, Frame -> All];
+
+kmMinFrequence[] := 
+  Grid[{{"fMIN"}, {fmin = N@(1/Max@Flatten@Values@GlobalPeriod)}}, 
+   Background -> {{}, {LightGreen}}, Frame -> All];
