@@ -1,0 +1,40 @@
+kmInit[partitions_] := Block[{Peaks},
+  len = Length@partitions;
+  GlobalPeaks = Association[{}];
+  GlobalPeriod = Association[{}];
+  GlobalMeanPeriod = Association[{}];
+  GlobalAmplitude = Association[{}];
+  GlobalMeanAmplitude = Association[{}];
+  Peaks[data_] := Block[{audioData, maxPeaks},
+    audioData = Flatten@AudioData[partitions[[data]]];
+    maxPeaks = FindPeaks[audioData, 10];
+    maxPeaks = # & /@ 
+      maxPeaks[[
+       Flatten@((Position[maxPeaks[[All, 2]], #] & /@ 
+           FindPeaks[maxPeaks[[All, 2]]][[All, 2]]))]];
+    GlobalPeaks[
+      data] = {#[[1]]*0.1/4010, #[[2]]} & /@ SortBy[#, #[[1]] &] &@
+      DeleteDuplicates@maxPeaks;
+    GlobalPeriod[data] = 
+     Abs@Differences[GlobalPeaks[data][[All, 1]]];
+    GlobalMeanPeriod[data] = Mean@GlobalPeriod[data];
+    
+    GlobalAmplitude[data] = GlobalPeaks[data][[All, 2]];
+    GlobalMeanAmplitude[data] = Mean@GlobalAmplitude[data];
+    Tooltip[
+     ListLinePlot[
+      audioData, Epilog -> {Red, PointSize[0.01], Point[maxPeaks]}, 
+      ImageSize -> Large
+      ],
+     Column[{
+       StringForm["GlobalPeriods=``, MeanPeriod=``", 
+        GlobalPeriod[data], 
+        Style[GlobalMeanPeriod[data] // N, Bold, 12]],
+       StringForm["GlobalAmplitude=``, GlobalMeanAmplitude=``", 
+        GlobalAmplitude[data], 
+        Style[GlobalMeanAmplitude[data] // N, Bold, 12]]
+       }]
+     ]
+    ];
+  Imgs = Peaks[#] & /@ Range[len]; 
+  ]
