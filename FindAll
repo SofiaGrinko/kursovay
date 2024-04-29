@@ -1,0 +1,30 @@
+FindAll[] := Block[{},
+  kmJitter[];
+  kmShimmer[];
+  kmFrequence[];
+  kmMaxFrequence[];
+  kmMinFrequence[];
+  Grid[{{"Jitter", SpanFromLeft, SpanFromLeft, SpanFromLeft, 
+     "Shimmer", SpanFromLeft, SpanFromLeft, SpanFromLeft, "Freq", 
+     SpanFromLeft},
+    {"Jitta", "Jitt", "Rap", "pp5q", "Shimm", "ShdB", "apq3", "apq5", 
+     "f1", "f2", "fMAX", "fMIN"},
+    Append[
+     Append[Append[
+       Append[Mean /@ {Jitta*10^6, Jitt, Rap, pp5q, Shimm, ShdB, apq3,
+           apq5}, f1], f2], fmax], fmin]},
+   Frame -> All, Background -> {None, None,
+     {
+      {{1, 1}, {1, 4}} -> Lighter@Blue,
+      {{2, 2}, {1, 4}} -> Lighter@Lighter@Blue,
+      {{3, 3}, {1, 4}} -> Lighter@Lighter@Lighter@Lighter@Blue,
+      {{1, 1}, {5, 8}} -> Lighter@Red,
+      {{2, 2}, {5, 8}} -> Lighter@Lighter@Red,
+      {{3, 3}, {5, 8}} -> LightRed,
+      {{1, 1}, {9, 12}} -> Lighter@Green,
+      {{2, 2}, {9, 12}} -> Lighter@Lighter@Lighter@Green,
+      {{3, 3}, {9, 12}} -> LightGreen,
+      
+      }
+     }]
+  ]
