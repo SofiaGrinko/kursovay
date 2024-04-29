@@ -1,0 +1,22 @@
+kmMain[Dir_] := Block[
+  {Data, DataList, res, parts},
+  Results = Association[{}];
+  DataList = FileNames["*.wav", Dir];
+  Print[DataList];
+  Do[
+   Data = Import@ex;
+   parts = AudioPartition[Data, Quantity[0.1, "Seconds"]][[3 ;; 7]];
+   kmInit[parts];
+   FindAll[];
+   Results[StringReplace[ex, Dir -> ""]] = 
+    Append[Append[
+      Append[Append[
+        Mean /@ {Jitta*10^6, Jitt, Rap, pp5q, Shimm, ShdB, apq3, 
+          apq5}, f1], f2], fmax], fmin];
+   , {ex, DataList}];
+  listToTable = Transpose@{Keys@Results, Values@Results};
+  Export["Results.xlsx", 
+   Prepend[Flatten /@ listToTable, {"", "Jitta", "Jitt", "Rap", 
+     "pp5q", "Shimm", "ShdB", "apq3", "apq5", "f1", "f2", "fMax", 
+     "fMin"}]];
+  ]
